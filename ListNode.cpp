@@ -1,70 +1,81 @@
 #include <iostream>
 using namespace std;
 
-//µ¥Á´±í½Úµã½á¹¹
+//å•é“¾è¡¨èŠ‚ç‚¹ç»“æ„
 struct ListNode
 {
     int val;
     struct ListNode *next;
-    ListNode(int x):val(x),next(NULL){};//³õÊ¼»¯
+    ListNode(int x):val(x),next(NULL){};//åˆå§‹åŒ–
 
 };
 
-//¶¨Òå×Ô¼ºµÄÁ´±í
+//å®šä¹‰è‡ªå·±çš„é“¾è¡¨
 class MyListNode
 {
 public:
-    ListNode *head;//Á´±íÍ·½ÚµãÖ¸Õë
-    int size;//Á´±í³¤¶È
-    MyListNode()//¹¹Ôìº¯Êı
+    ListNode *head;//é“¾è¡¨å¤´èŠ‚ç‚¹æŒ‡é’ˆ
+    int size;//é“¾è¡¨é•¿åº¦
+    MyListNode()//æ„é€ å‡½æ•°
     {
-        head = new ListNode(0);//Í·½ÚµãÎª0
-        size = 0;//³¤¶ÈÎª0
+        head = new ListNode(0);//å¤´èŠ‚ç‚¹ä¸º0
+        size = 0;//é•¿åº¦ä¸º0
     };
     ~MyListNode(){};
 
     //functions
-    //»ù±¾²Ù×÷-------------------------
-    int get(int index);//²é-------»ñÈ¡Ë÷Òı½ÚµãÊıÖµ
-    void addAtHead(int val);//Ôö-------²åÈëÍ·
-    void addAtTail(int val);//Ôö-------²åÈëÎ²
-    void addAtIndex(int index, int val);//Ôö-------°´Ë÷Òı²åÈë
-    void deleteAtIndex(int index);//É¾
-    //±éÀú-----------------------------
-    void Iteration_Loop();//µü´ú·¨±éÀú
-    void Recursive_Loop(ListNode *p);//µİ¹é·¨±éÀú
+    //åŸºæœ¬æ“ä½œ-----------------------------
+    int get(int index);//æŸ¥-------è·å–ç´¢å¼•èŠ‚ç‚¹æ•°å€¼
+    void addAtHead(int val);//å¢-------æ’å…¥å¤´
+    void addAtTail(int val);//å¢-------æ’å…¥å°¾
+    void addAtIndex(int index, int val);//å¢-------æŒ‰ç´¢å¼•æ’å…¥
+    void deleteAtIndex(int index);//åˆ 
+    //éå†-----------------------------
+    void Iteration_Loop(ListNode *head);//è¿­ä»£æ³•éå†
+    void Recursive_Loop(ListNode *p);//é€’å½’æ³•éå†
+    //é€†åºåˆ—è¡¨-----------------------------
+    ListNode *Reversed_ListNode(ListNode *head);//é€’å½’æ³•é€†è½¬ï¼Œè¿”å›é€†è½¬åˆ—è¡¨å¤´èŠ‚ç‚¹
+    //æ‰¾ä¸­é—´èŠ‚ç‚¹-----------------------------
+    ListNode *LinkListMiddleNode(ListNode *head);
+    //æ‰¾å€’æ•°ç¬¬Kä¸ªèŠ‚ç‚¹-----------------------------
+    ListNode *LinkListKthNode(ListNode *head, int K);
+
+
+
+
+
 };
 
 
-//º¯Êı¶¨Òå
+//å‡½æ•°å®šä¹‰
 //=========================================================================================================================    
 // Get the value of the index-th node in the linked list. If the index is invalid, return -1. 
 int MyListNode::get(int index) 
 {
-    if(index<0 || index > (size-1)) return -1;//Ë÷Òı±È0Ğ¡»òÕß±È×î´óË÷Òı´ó£¬·µ»Ø-1
-    ListNode *cur = head;//¸¨ÖúÖ¸ÕëÖ¸ÏòµÚ0¸ö½Úµã
-    while(index)//²»µÈÓÚ0¾ÍÑ­»·
+    if(index<0 || index > (size-1)) return -1;//ç´¢å¼•æ¯”0å°æˆ–è€…æ¯”æœ€å¤§ç´¢å¼•å¤§ï¼Œè¿”å›-1
+    ListNode *cur = head;//è¾…åŠ©æŒ‡é’ˆæŒ‡å‘ç¬¬0ä¸ªèŠ‚ç‚¹
+    while(index)//ä¸ç­‰äº0å°±å¾ªç¯
     {
-        cur = cur->next;//Ñ­»·index´Î±éÀúµ½µÚindex¸ö½Úµã
+        cur = cur->next;//å¾ªç¯indexæ¬¡éå†åˆ°ç¬¬indexä¸ªèŠ‚ç‚¹
         index --;
     } 
-    return cur->val;//Ö¸ÏòÊıÖµÊä³ö
+    return cur->val;//æŒ‡å‘æ•°å€¼è¾“å‡º
 }
 
 // Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. 
 void MyListNode::addAtHead(int val) 
 {
-    if(size == 0)//Èç¹ûµÚÒ»´Î²åÈë£¬Ö±½Ó°ÑÍ·½Úµã»»³ÉÕâ¸öÊı
+    if(size == 0)//å¦‚æœç¬¬ä¸€æ¬¡æ’å…¥ï¼Œç›´æ¥æŠŠå¤´èŠ‚ç‚¹æ¢æˆè¿™ä¸ªæ•°
     {
         head->val = val;
         size ++;
     }
     else
     {
-        ListNode *newnode = new ListNode(val);//´´½¨ĞÂ½Úµã
-        newnode->next = head;//½«ĞÂ½ÚµãÁ¬½Óµ½Í·½Úµã
-        head = newnode;//Ö¸¶¨ĞÂ½ÚµãÎªÍ·½Úµã
-        size ++;//³¤¶È¼Ó1
+        ListNode *newnode = new ListNode(val);//åˆ›å»ºæ–°èŠ‚ç‚¹
+        newnode->next = head;//å°†æ–°èŠ‚ç‚¹è¿æ¥åˆ°å¤´èŠ‚ç‚¹
+        head = newnode;//æŒ‡å®šæ–°èŠ‚ç‚¹ä¸ºå¤´èŠ‚ç‚¹
+        size ++;//é•¿åº¦åŠ 1
     }
     
 }
@@ -72,45 +83,45 @@ void MyListNode::addAtHead(int val)
 //Append a node of value val to the last element of the linked list. 
 void MyListNode::addAtTail(int val) 
 {
-    ListNode *cur = head;//¸¨ÖúÖ¸Õë´ÓÍ·Ö¸Õë¿ªÊ¼
-    while(cur->next) cur = cur->next;//±éÀúµ½×îºóÒ»¸ö½Úµã,Èç¹ûÊÇ¿ÕÁ´±í£¬ÔòÖ±½Ó²»Ñ­»·£¬Ö¸Õë»¹ÊÇÔÚÍ·Ö¸Õë
-    ListNode *newnode = new ListNode(val);//´´ÔìĞÂ½Úµã²¢¸³Öµ
-    newnode->next = cur->next;//¸´ÖÆÔ­×îºó½ÚµãµÄnextĞÅÏ¢,¿Õ½Úµã
-    cur->next = newnode;//Á¬½Ó×îºóÒ»¸öĞÂ½ÚµãºÍÉÏÒ»¸ö½Úµã
-    size ++;//³¤¶È¼Ó1
+    ListNode *cur = head;//è¾…åŠ©æŒ‡é’ˆä»å¤´æŒ‡é’ˆå¼€å§‹
+    while(cur->next) cur = cur->next;//éå†åˆ°æœ€åä¸€ä¸ªèŠ‚ç‚¹,å¦‚æœæ˜¯ç©ºé“¾è¡¨ï¼Œåˆ™ç›´æ¥ä¸å¾ªç¯ï¼ŒæŒ‡é’ˆè¿˜æ˜¯åœ¨å¤´æŒ‡é’ˆ
+    ListNode *newnode = new ListNode(val);//åˆ›é€ æ–°èŠ‚ç‚¹å¹¶èµ‹å€¼
+    newnode->next = cur->next;//å¤åˆ¶åŸæœ€åèŠ‚ç‚¹çš„nextä¿¡æ¯,ç©ºèŠ‚ç‚¹
+    cur->next = newnode;//è¿æ¥æœ€åä¸€ä¸ªæ–°èŠ‚ç‚¹å’Œä¸Šä¸€ä¸ªèŠ‚ç‚¹
+    size ++;//é•¿åº¦åŠ 1
 }
 
 // Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. 
 void MyListNode::addAtIndex(int index, int val) 
 {
-    if(index <= 0) addAtHead(val);//²åÈëindexµÄÊ±ºò£¬Èç¹ûÏÂ±êÊÇ=0,¾ÍÏàµ±ÓÚ´ÓÍ·²åÈë£¬ËùÒÔÒª°üº¬<=
+    if(index <= 0) addAtHead(val);//æ’å…¥indexçš„æ—¶å€™ï¼Œå¦‚æœä¸‹æ ‡æ˜¯=0,å°±ç›¸å½“äºä»å¤´æ’å…¥ï¼Œæ‰€ä»¥è¦åŒ…å«<=
     else if(index == size) addAtTail(val);
     else if(index > size) return;
     else
     {
         ListNode *newnode = new ListNode(val);
-        ListNode *cur = head;//¸¨ÖúÖ¸Õë´ÓÍ·Ö¸Õë¿ªÊ¼
-        while(index--) cur = cur->next;//±éÀúµ½µÚindex-1µÄ½Úµã£¬Ñ­»·´ÎÊıÊÇindex´Î µ«ÊÇ¸¨ÖúÖ¸ÕëÊÇ´ÓÍ·Ö¸Õë¿ªÊ¼¶ø²»ÊÇµÚÒ»¸ö½Úµã
-        newnode->next = cur->next;//Á¬½Óindex
-        cur->next = newnode;//Á¬½ÓÇ°Ò»¸ö
-        size ++;//³¤¶È+1
+        ListNode *cur = head;//è¾…åŠ©æŒ‡é’ˆä»å¤´æŒ‡é’ˆå¼€å§‹
+        while(index--) cur = cur->next;//éå†åˆ°ç¬¬index-1çš„èŠ‚ç‚¹ï¼Œå¾ªç¯æ¬¡æ•°æ˜¯indexæ¬¡ ä½†æ˜¯è¾…åŠ©æŒ‡é’ˆæ˜¯ä»å¤´æŒ‡é’ˆå¼€å§‹è€Œä¸æ˜¯ç¬¬ä¸€ä¸ªèŠ‚ç‚¹
+        newnode->next = cur->next;//è¿æ¥index
+        cur->next = newnode;//è¿æ¥å‰ä¸€ä¸ª
+        size ++;//é•¿åº¦+1
     }
 }
 
 //Delete the index-th node in the linked list, if the index is valid. 
 void MyListNode::deleteAtIndex(int index) {
     if(index < 0 || index >= size) return ;
-    ListNode *cur = head;//´ÓÍ·Ö¸Õë¿ªÊ¼
-    while(index--){//±éÀúµ½index-1µÄÎ»ÖÃ,Ñ­»·´ÎÊıÊÇindex´Î
+    ListNode *cur = head;//ä»å¤´æŒ‡é’ˆå¼€å§‹
+    while(index--){//éå†åˆ°index-1çš„ä½ç½®,å¾ªç¯æ¬¡æ•°æ˜¯indexæ¬¡
         cur = cur->next;
     }
-    cur->next = cur->next->next;//Ïàµ±ÓÚÖ±½Ó¿ç¹ıÁËindex½Úµã
+    cur->next = cur->next->next;//ç›¸å½“äºç›´æ¥è·¨è¿‡äº†indexèŠ‚ç‚¹
     size--;
 }
 
 
-//µü´ú·¨·ÃÎÊÁ´±í
-void MyListNode::Iteration_Loop()
+//è¿­ä»£æ³•è®¿é—®é“¾è¡¨
+void MyListNode::Iteration_Loop(ListNode *head)
 {
     for(ListNode *p = head;p != NULL;p = p->next)
     {
@@ -118,14 +129,80 @@ void MyListNode::Iteration_Loop()
     }
 }
 
-//µİ¹é·¨·ÃÎÊÁ´±í
+//é€’å½’æ³•è®¿é—®é“¾è¡¨
 void MyListNode::Recursive_Loop(ListNode *p)
 {
-    cout<<p->val<<endl;//²Ù×÷Òª·ÅÔÚÇ°Ãæ²ÅĞĞ
-    Recursive_Loop(p->next);
+    if(p != NULL)
+    {
+        cout<<p->val<<endl;//æ“ä½œè¦æ”¾åœ¨å‰é¢æ‰è¡Œ
+        Recursive_Loop(p->next);
+    }
+    else return;
+    
 }
 
-//Ö÷º¯Êı
+//åè½¬é“¾è¡¨
+//é€’å½’æ³•é€†è½¬ï¼Œè¿”å›é€†è½¬åˆ—è¡¨å¤´èŠ‚ç‚¹
+// 1 -> 2 -> 3 -> 4 ===========> 4 -> 3 -> 2 -> 1
+ListNode *MyListNode::Reversed_ListNode(ListNode *head)//è¿”å›æŒ‡é’ˆç±»å‹,ä¼šæŠŠheadé“¾è¡¨æ”¹å˜
+{
+    //Base case
+    if(head == NULL || head->next == NULL)//åˆ¤æ–­æ˜¯å¦ä¸ºç©ºé“¾è¡¨ï¼Œå’Œæ˜¯å¦æ˜¯æœ«èŠ‚ç‚¹ï¼Œå¦‚æœæ˜¯ç›´æ¥è¿”å›è¯¥èŠ‚ç‚¹
+    {
+        return head;
+    }
+    //å¦‚æœè¯¥èŠ‚ç‚¹ä¸æ˜¯æœ«èŠ‚ç‚¹ï¼Œå°±å¼€å§‹é€’å½’ä¸‹ä¸€ä¸ª
+    //Step1: å…ˆè¦ä¸‹ä¸€æ­¥é€’å½’
+    ListNode *next_ListNode = Reversed_ListNode(head->next);
+    //Step2ï¼š è¿›è¡ŒèŠ‚ç‚¹æ“ä½œ, æ–­ + è¿
+    head->next->next = head;//ä¸‹ä¸‹èŠ‚ç‚¹æŒ‡å›æ¥
+    head->next = NULL;//æš‚æ—¶æ–­å¼€ä¸‹èŠ‚ç‚¹
+    //Step3: è¿”å›ç»“æœï¼Œå®é™…å¼€å§‹é€’å½’
+    return next_ListNode;
+}
+
+//å¯»æ‰¾é“¾è¡¨ä¸­é—´èŠ‚ç‚¹
+//å®šä¹‰ä¸¤ä¸ªæŒ‡é’ˆèŠ‚ç‚¹ï¼Œä¸€å—ä¸€æ…¢ã€‚
+// 1 -> 2 -> 3 -> 4 -> 5
+ListNode *MyListNode::LinkListMiddleNode(ListNode *head)
+{
+    //å®šä¹‰ä¸¤èŠ‚ç‚¹
+    ListNode *i = head;
+    ListNode *j = head;
+    //å¾ªç¯èŠ‚ç‚¹
+    while(j != NULL && j->next != NULL)//*****æ³¨æ„å¿…é¡»æ˜¯ä¸ï¼Œå¦‚æœæ˜¯æˆ–å°±ä¼šæ— é™å¾ªç¯ï¼Œç©ºèŠ‚ç‚¹çš„ä¸‹ä¸€ä¸ªä¸æ»¡è¶³!=NULL
+    {
+        i = i->next;
+        j = j->next->next;//ä¸¤å€é€Ÿ
+        // cout<<i->val<<endl;
+    }
+    // cout<<"ll"<<endl;
+    return i;
+}
+
+//å¯»æ‰¾é“¾è¡¨å€’æ•°ç¬¬Kä¸ªèŠ‚ç‚¹
+//ä¸¤ä¸ªæŒ‡é’ˆï¼Œä¸€å—ä¸€æ…¢
+//ç”»ä¸ªå›¾çœ‹çœ‹
+ListNode *MyListNode::LinkListKthNode(ListNode *head, int K)
+{
+    //å®šä¹‰ä¸¤èŠ‚ç‚¹
+    ListNode *i = head;
+    ListNode *j = head;
+    //å…ˆç§»åŠ¨å¿«èŠ‚ç‚¹
+    for(int c = 0; c<K;c++)//eg 2
+    {
+        j = j->next;
+    }
+    //ä¸¤ä¸ªåŒæ­¥ç§»åŠ¨ï¼ŒçŸ¥é“å¿«èŠ‚ç‚¹ä¸ºnull
+    while(j != NULL)
+    {
+        i = i->next;
+        j = j->next;
+    }
+    return i;
+}
+
+//ä¸»å‡½æ•°
 //=========================================================================================================================
 int main(int argc,char *argv[])
 {
@@ -136,8 +213,28 @@ int main(int argc,char *argv[])
     my->addAtHead(2);
     my->addAtTail(3);
     my->addAtIndex(1,5);
-    my->Iteration_Loop();
+    cout<<"Iteration: "<<endl;
+    my->Iteration_Loop(my->head);
+    cout<<"Middle: "<<endl;
+    cout<<my->LinkListMiddleNode(my->head)->val<<endl;
+    cout<<"2th: "<<endl;
+    cout<<my->LinkListKthNode(my->head,2)->val<<endl;
     cout<<"Recursive: "<<endl;
     my->Recursive_Loop(my->head);
+    cout<<"Rerversed: "<<endl;
+    ListNode *reverse_note = my->Reversed_ListNode(my->head);//reverse_noteæˆä¸ºåè½¬é“¾è¡¨çš„å¤´èŠ‚ç‚¹ï¼Œmy->headå˜æˆå°¾èŠ‚ç‚¹
+    my->head = reverse_note;//é‡æ–°è®¾ç½®å¤´èŠ‚ç‚¹
+    cout<<reverse_note->val<<endl;
+    my->Recursive_Loop(my->head);
+    my->Iteration_Loop(my->head);
+    cout<<"Middle: "<<endl;
+    my->addAtTail(7);
+    my->Iteration_Loop(my->head);
+    cout<<my->LinkListMiddleNode(my->head)->val<<endl;
+    cout<<"2th: "<<endl;
+    cout<<my->LinkListKthNode(my->head,2)->val<<endl;
+    cout<<my->LinkListKthNode(my->head,1)->val<<endl;
+
+
     return 0;
 }
